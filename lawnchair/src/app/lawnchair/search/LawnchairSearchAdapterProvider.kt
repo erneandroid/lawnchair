@@ -23,9 +23,14 @@ class LawnchairSearchAdapterProvider(
     private val layoutIdMap = SparseIntArray().apply {
         append(SEARCH_RESULT_ICON, R.layout.search_result_icon)
         append(SEARCH_RESULT_ICON_ROW, R.layout.search_result_tall_icon_row)
+        append(SEARCH_RESULT_SMALL_ICON_ROW, R.layout.search_result_small_icon_row)
         append(SEARCH_RESULT_DIVIDER, R.layout.search_result_divider)
     }
     private var quickLaunchItem: SearchResultView? = null
+        set(value) {
+            field = value
+            appsView.searchUiManager.setFocusedResultTitle(field?.titleText)
+        }
 
     override fun isViewSupported(viewType: Int): Boolean = layoutIdMap.containsKey(viewType)
 
@@ -35,7 +40,7 @@ class LawnchairSearchAdapterProvider(
 
         val itemView = holder.itemView as SearchResultView
         itemView.bind(adapterItem.searchTarget, emptyList())
-        if (itemView.isQuickLaunch()) {
+        if (itemView.isQuickLaunch) {
             quickLaunchItem = itemView
         }
     }
@@ -59,11 +64,13 @@ class LawnchairSearchAdapterProvider(
     companion object {
         private const val SEARCH_RESULT_ICON = (1 shl 8) or AllAppsGridAdapter.VIEW_TYPE_ICON
         private const val SEARCH_RESULT_ICON_ROW = 1 shl 9
-        private const val SEARCH_RESULT_DIVIDER = 1 shl 10
+        private const val SEARCH_RESULT_SMALL_ICON_ROW = 1 shl 10
+        private const val SEARCH_RESULT_DIVIDER = 1 shl 11
 
         val viewTypeMap = mapOf(
             LayoutType.ICON_SINGLE_VERTICAL_TEXT to SEARCH_RESULT_ICON,
             LayoutType.ICON_HORIZONTAL_TEXT to SEARCH_RESULT_ICON_ROW,
+            LayoutType.SMALL_ICON_HORIZONTAL_TEXT to SEARCH_RESULT_SMALL_ICON_ROW,
             LayoutType.DIVIDER to SEARCH_RESULT_DIVIDER,
         )
 

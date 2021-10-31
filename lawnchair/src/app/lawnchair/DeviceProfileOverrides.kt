@@ -52,9 +52,11 @@ class DeviceProfileOverrides(context: Context) {
         fun apply(idp: InvariantDeviceProfile) {
             // apply grid size
             idp.numShownHotseatIcons = numHotseatColumns
+            idp.numDatabaseHotseatIcons = numHotseatColumns
             idp.numRows = numRows
             idp.numColumns = numColumns
             idp.numAllAppsColumns = numAllAppsColumns
+            idp.numDatabaseAllAppsColumns = numAllAppsColumns
             idp.numFolderRows = numFolderRows
             idp.numFolderColumns = numFolderColumns
 

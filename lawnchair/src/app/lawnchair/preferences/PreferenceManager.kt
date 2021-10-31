@@ -66,6 +66,7 @@ class PreferenceManager private constructor(private val context: Context) : Base
     val smartSpaceEnable = BoolPref("pref_smartSpaceEnable", true, restart)
     val minusOneEnable = BoolPref("pref_enableMinusOne", true, recreate)
     val useFuzzySearch = BoolPref("pref_useFuzzySearch", false)
+    val hideAppSearchBar = BoolPref("pref_hideAppSearchBar", false, recreate)
 
     // TODO: Add the ability to manually delete empty pages.
     val allowEmptyPages = BoolPref("pref_allowEmptyPages", false)
@@ -81,18 +82,15 @@ class PreferenceManager private constructor(private val context: Context) : Base
     val autoLaunchRoot = BoolPref("pref_autoLaunchRoot", false)
     val accentColor = ObjectPref(
         "pref_accentColor2",
-        if (Utilities.ATLEAST_O_MR1) ColorOption.WallpaperPrimary else ColorOption.LawnchairBlue,
+        when {
+            Utilities.ATLEAST_S -> ColorOption.SystemAccent
+            Utilities.ATLEAST_O_MR1 -> ColorOption.WallpaperPrimary
+            else -> ColorOption.LawnchairBlue
+        },
         ColorOption::fromString,
         ColorOption::toString,
         recreate
     )
-    val lastCustomAccent = ObjectPref(
-        "pref_lastCustomAccent",
-        ColorOption.LawnchairBlue,
-        ColorOption::fromString,
-        ColorOption::toString
-    )
-    val enableColorfulTheme = BoolPref("pref_enableColorfulTheme", true, recreate)
     val wallpaperScrolling = BoolPref("pref_wallpaperScrolling", true)
     val showSysUiScrim = BoolPref("pref_showSysUiScrim", true)
     val showStatusBar = BoolPref("pref_showStatusBar", true, recreate)
@@ -116,7 +114,12 @@ class PreferenceManager private constructor(private val context: Context) : Base
     val roundedWidgets = BoolPref("pref_roundedWidgets", true, reloadGrid)
 
     private val fontCache = FontCache.INSTANCE.get(context)
-    val workspaceFont = FontPref("pref_workspaceFont", fontCache.uiTextMedium, recreate)
+    val workspaceFont = FontPref("pref_workspaceFont", fontCache.uiText, recreate)
+
+    val enableIconSelection = BoolPref("pref_enableIconSelection", false)
+    val themedIcons = BoolPref("themed_icons", false)
+    val hotseatQsbCornerRadius = FloatPref("pref_hotseatQsbCornerRadius", 1F, recreate)
+    val themedHotseatQsb = BoolPref("pref_themedHotseatQsb", false)
 
     init {
         sp.registerOnSharedPreferenceChangeListener(this)

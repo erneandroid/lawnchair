@@ -56,6 +56,10 @@ object DrawableTokens {
         .setColor(ColorTokens.PopupColorPrimary)
 
     @JvmField
+    val TaskMenuItemBg = ResourceDrawableToken<GradientDrawable>(R.drawable.task_menu_item_bg)
+        .setColor(ColorTokens.ColorPrimary)
+
+    @JvmField
     val WidgetsBottomSheetBackground = ResourceDrawableToken<GradientDrawable>(R.drawable.widgets_bottom_sheet_background)
         .setColor(ColorTokens.Surface)
 
@@ -65,7 +69,7 @@ object DrawableTokens {
 
     @JvmField
     val WidgetResizeFrame = ResourceDrawableToken<GradientDrawable>(R.drawable.widget_resize_frame)
-        .setStroke(2f, ColorTokens.WorkspaceAccentColor)
+        .setTint(ColorTokens.WorkspaceAccentColor)
 
     @JvmField
     val AllAppsTabsBackground = NewDrawable { context, scheme, uiColorMode ->

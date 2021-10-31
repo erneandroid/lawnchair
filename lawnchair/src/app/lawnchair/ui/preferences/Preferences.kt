@@ -18,8 +18,7 @@ package app.lawnchair.ui.preferences
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -46,6 +45,7 @@ object Routes {
     const val QUICKSTEP: String = "quickstep"
     const val FONT_SELECTION: String = "fontSelection"
     const val DEBUG_MENU: String = "debugMenu"
+    const val SELECT_ICON: String = "selectIcon"
 }
 
 val LocalNavController = staticCompositionLocalOf<NavController> {
@@ -68,7 +68,7 @@ fun Preferences(interactor: PreferenceInteractor = viewModel<PreferenceViewModel
 
     SystemUi()
     Providers {
-        Surface(color = MaterialTheme.colors.background) {
+        Surface {
             CompositionLocalProvider(
                 LocalNavController provides navController,
                 LocalPreferenceInteractor provides interactor,
@@ -91,6 +91,7 @@ fun Preferences(interactor: PreferenceInteractor = viewModel<PreferenceViewModel
                         aboutGraph(route = subRoute(Routes.ABOUT))
                         fontSelectionGraph(route = subRoute(Routes.FONT_SELECTION))
                         debugMenuGraph(route = subRoute(Routes.DEBUG_MENU))
+                        selectIconGraph(route = subRoute(Routes.SELECT_ICON))
                     }
                 }
             }

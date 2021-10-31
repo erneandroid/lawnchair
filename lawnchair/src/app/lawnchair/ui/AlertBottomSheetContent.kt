@@ -3,8 +3,8 @@ package app.lawnchair.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -14,6 +14,7 @@ import app.lawnchair.util.navigationBarsOrDisplayCutoutPadding
 @Composable
 fun AlertBottomSheetContent(
     buttons: @Composable RowScope.() -> Unit,
+    modifier: Modifier = Modifier,
     title: (@Composable () -> Unit)? = null,
     text: @Composable (() -> Unit)? = null,
     content: @Composable (() -> Unit)? = null
@@ -21,21 +22,21 @@ fun AlertBottomSheetContent(
     val contentPadding = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .navigationBarsOrDisplayCutoutPadding()
             .fillMaxWidth()
     ) {
         if (title != null) {
             Box(modifier = contentPadding) {
                 CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.high) {
-                    val textStyle = MaterialTheme.typography.h6
+                    val textStyle = MaterialTheme.typography.titleLarge
                     ProvideTextStyle(textStyle, title)
                 }
             }
         }
         if (text != null) {
             Box(modifier = contentPadding) {
-                val textStyle = MaterialTheme.typography.body2
+                val textStyle = MaterialTheme.typography.bodyMedium
                 ProvideTextStyle(textStyle, text)
             }
         }

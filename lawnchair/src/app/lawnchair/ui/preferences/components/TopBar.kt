@@ -16,31 +16,23 @@
 
 package app.lawnchair.ui.preferences.components
 
-import androidx.compose.animation.Animatable
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.runtime.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.currentBackStackEntryAsState
-import app.lawnchair.ui.preferences.LocalNavController
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 
 @ExperimentalAnimationApi
@@ -51,90 +43,53 @@ fun TopBar(
     label: String,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    val navController = LocalNavController.current
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val scrollFraction = if (floating) 1f else 0f
 
-    TopBarSurface(floating = floating) {
-        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colors.onSurface) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(topBarSize)
-                    .padding(horizontal = 8.dp)
-            ) {
-                if (backArrowVisible) {
+    val colors = TopAppBarDefaults.smallTopAppBarColors()
+    val appBarContainerColor by colors.containerColor(scrollFraction)
+    val navigationIconContentColor = colors.navigationIconContentColor(scrollFraction)
+    val titleContentColor = colors.titleContentColor(scrollFraction)
+    val actionIconContentColor = colors.actionIconContentColor(scrollFraction)
+
+    Surface(color = appBarContainerColor) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .statusBarsPadding()
+                .fillMaxWidth()
+                .height(topBarSize)
+                .padding(horizontal = 8.dp)
+        ) {
+            if (backArrowVisible) {
+                CompositionLocalProvider(LocalContentColor provides navigationIconContentColor.value) {
                     ClickableIcon(
                         imageVector = backIcon(),
-                        onClick = { if (currentRoute != "/") navController.popBackStack() }
-                    )
-                }
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Row(
-                        Modifier.fillMaxHeight(),
-                        horizontalArrangement = Arrangement.End,
-                        verticalAlignment = Alignment.CenterVertically,
-                        content = actions
+                        onClick = { backDispatcher?.onBackPressed() }
                     )
                 }
             }
+            Text(
+                text = label,
+                style = MaterialTheme.typography.titleLarge,
+                color = titleContentColor.value,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            CompositionLocalProvider(LocalContentColor provides actionIconContentColor.value) {
+                Row(
+                    Modifier.fillMaxHeight(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = actions
+                )
+            }
         }
     }
-}
-
-val shadowColors = listOf(Color(0, 0, 0, 31), Color.Transparent)
-
-@Composable
-fun TopBarSurface(floating: Boolean, content: @Composable () -> Unit) {
-    val (normalColor, floatingColor) = topBarColors()
-    val color = remember(key1 = normalColor) { Animatable(normalColor) }
-    LaunchedEffect(floating) {
-        color.animateTo(if (floating) floatingColor else normalColor)
-    }
-    val shadowAlpha by animateFloatAsState(if (floating) 1f else 0f)
-
-    Column(
-        modifier = Modifier
-            .navigationBarsPadding(bottom = false)
-    ) {
-        Box(
-            modifier = Modifier
-                .background(color.value)
-                .statusBarsPadding()
-                .pointerInput(remember { MutableInteractionSource() }) {
-                    // consume touch
-                }
-        ) {
-            content()
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(3.dp)
-                .alpha(shadowAlpha)
-                .background(Brush.verticalGradient(shadowColors))
-        )
-    }
-}
-
-@Composable
-fun topBarColors(): Pair<Color, Color> {
-    val elevationOverlay = LocalElevationOverlay.current
-    val backgroundColor = MaterialTheme.colors.background
-    val surfaceColor = MaterialTheme.colors.surface
-    val floatingColor = elevationOverlay?.apply(surfaceColor, 4.dp) ?: surfaceColor
-    return Pair(backgroundColor.copy(alpha = 0.9f), floatingColor.copy(alpha = 0.9f))
 }
 
 @Composable
@@ -145,4 +100,4 @@ fun backIcon(): ImageVector =
         Icons.Rounded.ArrowForward
     }
 
-val topBarSize = 56.dp
+val topBarSize = 64.dp

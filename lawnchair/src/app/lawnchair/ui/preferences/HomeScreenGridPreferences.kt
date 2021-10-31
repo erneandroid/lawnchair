@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +55,7 @@ fun HomeScreenGridPreferences() {
         if (isPortrait) {
             GridOverridesPreview(
                 modifier = Modifier
+                    .padding(top = 8.dp)
                     .weight(1f)
                     .align(Alignment.CenterHorizontally)
                     .clip(MaterialTheme.shapes.large)
@@ -97,7 +98,8 @@ fun HomeScreenGridPreferences() {
             Button(
                 onClick = { applyOverrides() },
                 modifier = Modifier
-                    .align(Alignment.CenterEnd),
+                    .align(Alignment.CenterEnd)
+                    .fillMaxWidth(),
                 enabled = columns.value != originalColumns || rows.value != originalRows
             ) {
                 Text(text = stringResource(id = R.string.apply_grid))

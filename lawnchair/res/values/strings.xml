@@ -27,7 +27,7 @@
     <string name="home_screen_label">Home Screen</string>
     <string name="home_screen_description">Feed, At a Glance, Grid, Icons</string>
     <string name="general_label">General</string>
-    <string name="general_description">Notification Dots, Icon Pack</string>
+    <string name="general_description">Colors, Icon Pack, Notification Dots</string>
     <string name="home_screen_rotation_label">Home Screen Rotation</string>
     <string name="home_screen_rotaton_description">When device is rotated.</string>
     <string name="auto_add_shortcuts_label">Add New Apps to Home Screen</string>
@@ -49,7 +49,6 @@
     <string name="icon_size">Icon Size</string>
     <string name="label_size">Label Size</string>
     <string name="show_home_labels">Show Labels</string>
-    <string name="allow_empty_pages_label">Allow Empty Pages</string>
     <string name="notification_dots">Notification Dots</string>
     <string name="smartspace_preferences">Preferences</string>
     <string name="about_label">About</string>
@@ -97,7 +96,7 @@
     <string name="theme_label">Theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_system_default">Follow System</string>
+    <string name="theme_system_default">System</string>
     <string name="theme_follow_wallpaper">Match Wallpaper</string>
     <string name="quickstep_label">Recents</string>
     <string name="clear_all_as_action_label">Clear All Button at Bottom</string>
@@ -111,7 +110,6 @@
     <string name="system">System</string>
     <string name="wallpaper">Wallpaper</string>
     <string name="custom">Custom</string>
-    <string name="custom_color">Custom Color</string>
     <string name="quickstep_description">Clear All Button, Corner Radius</string>
     <string name="wallpaper_scrolling_label">Scroll Wallpaper</string>
     <string name="show_sys_ui_scrim">Top Shadow</string>
@@ -137,31 +135,59 @@
     <string name="font_weight_extra_bold">Extra Bold</string>
     <string name="font_weight_extra_black">Black</string>
 
-    <string name="font_label">Font</string>
+    <string name="font_label">Font (Experimental)</string>
     <string name="reset_font">Reset</string>
 
-    <string name="search_input_action_clear_results">Clear search box</string>
+    <string name="search_input_action_clear_results">Clear Search Box</string>
     <string name="pref_category_search">Search</string>
     <string name="pref_search_auto_show_keyboard">Automatically Show Keyboard</string>
     <string name="label_search">Search</string>
     <string name="label_lens">Google Lens</string>
-    <string name="label_voice_search">Voice search</string>
+    <string name="label_voice_search">Voice Search</string>
     <string name="apply_grid">Apply</string>
     <string name="x_by_y">%1$d × %2$d</string>
     <string name="folder_preview_bg_opacity_label">Icon Background Opacity</string>
 
     <string name="icon_shape_label">Icon Shape</string>
-    <string name="icon_shape_system">Set by System</string>
+    <string name="icon_shape_system">System</string>
     <string name="icon_shape_circle">Circle</string>
     <string name="icon_shape_rounded_square">Rounded Square</string>
     <string name="icon_shape_squircle">Squircle</string>
 
     <string name="customize_button_text">Customize</string>
     <string name="app_title_label">Title</string>
-    <string name="hide_from_drawer">Hide from Drawer</string>
+    <string name="hide_from_drawer">Hide from App Drawer</string>
     <string name="action_lens">Lens</string>
-    <string name="enable_colorful_theme">Also Apply to Background</string>
-    <string name="force_rounded_widgets">Round Corners</string>
+    <string name="force_rounded_widgets">Rounded Corners</string>
     <string name="suggestion_pref_screen_title">Suggestions</string>
     <string name="n_percent">%1$d%%</string>
+    <string name="label">Label</string>
+    <string name="presets">Presets</string>
+    <string name="colors">Colors</string>
+    <string name="dynamic">Dynamic</string>
+    <string name="all_apps_search_market_message">Search for More Apps</string>
+    <string name="show_app_search_bar">Show Search Bar</string>
+
+    <string name="lawnchair_bug_report">Lawnchair Bug Report</string>
+    <string name="crash_report_notif_title">%1$s Crashed</string>
+    <string name="action_upload">Upload to Dogbin</string>
+
+    <string name="action_copy_link">Copy Link</string>
+    <string name="action_copy">Copy</string>
+    <string name="copied_toast">Copied to clipboard.</string>
+    <string name="action_share">Share</string>
+
+    <string name="action_upload_error">Upload failed</string>
+    <string name="dogbin_uploading">Uploading…</string>
+
+    <string name="bugreport_channel_name">Bug Reports</string>
+    <string name="status_channel_name">Upload Status</string>
+
+    <string name="bugreport_group_summary">%d new reports.</string>
+    <string name="bugreport_group_summary_multiple">Multiple new reports.</string>
+
+    <string name="themed_icon_title">Themed Icons</string>
+    <string name="corner_radius_label">Corner Radius</string>
+    <string name="search_bar_label">Search Bar</string>
+    <string name="apply_accent_color_label">Apply Accent Color</string>
 </resources>

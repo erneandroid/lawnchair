@@ -18,14 +18,17 @@ package app.lawnchair.ui.preferences.components
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.lawnchair.util.smartBorder
+import androidx.compose.material3.MaterialTheme as Material3Theme
 
 @Composable
 @ExperimentalAnimationApi
@@ -37,6 +40,7 @@ fun PreferenceGroup(
     showDividers: Boolean = true,
     dividerStartIndent: Dp = 0.dp,
     dividerEndIndent: Dp = 0.dp,
+    dividersToSkip: Int = 0,
     content: @Composable () -> Unit
 ) {
     PreferenceGroupHeading(heading, isFirstChild)
@@ -44,7 +48,7 @@ fun PreferenceGroup(
         .padding(horizontal = 16.dp)
         .smartBorder(
             1.dp,
-            color = MaterialTheme.colors.onBackground.copy(alpha = 0.12F),
+            color = Material3Theme.colorScheme.onBackground.copy(alpha = 0.16f),
             shape = MaterialTheme.shapes.large
         )
         .clip(shape = MaterialTheme.shapes.large)
@@ -53,7 +57,8 @@ fun PreferenceGroup(
             modifier = columnModifier,
             startIndent = dividerStartIndent,
             endIndent = dividerEndIndent,
-            content = content
+            content = content,
+            dividersToSkip = dividersToSkip
         )
     } else {
         Column(modifier = columnModifier) {
@@ -81,16 +86,11 @@ fun PreferenceGroupHeading(
                 .padding(horizontal = 32.dp)
                 .fillMaxWidth()
         ) {
-            CompositionLocalProvider(
-                LocalContentAlpha provides ContentAlpha.medium,
-                LocalContentColor provides MaterialTheme.colors.onBackground
-            ) {
-                Text(
-                    text = heading,
-                    style = MaterialTheme.typography.subtitle2,
-                    color = MaterialTheme.colors.primary
-                )
-            }
+            Text(
+                text = heading,
+                style = Material3Theme.typography.titleSmall,
+                color = Material3Theme.colorScheme.primary
+            )
         }
     }
 }
@@ -105,15 +105,11 @@ fun PreferenceGroupDescription(description: String? = null, showDescription: Boo
             exit = shrinkVertically() + fadeOut()
         ) {
             Row(modifier = Modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp)) {
-                CompositionLocalProvider(
-                    LocalContentAlpha provides ContentAlpha.medium,
-                    LocalContentColor provides MaterialTheme.colors.onBackground
-                ) {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
+                Text(
+                    text = it,
+                    style = Material3Theme.typography.bodyMedium,
+                    color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
+                )
             }
         }
     }

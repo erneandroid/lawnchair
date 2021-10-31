@@ -1,6 +1,6 @@
 package app.lawnchair.ui.preferences.components
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -16,11 +16,12 @@ import kotlin.math.roundToInt
 @Composable
 fun DividerColumn(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
+    color: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.16f),
     thickness: Dp = 1.dp,
     startIndent: Dp = 0.dp,
     endIndent: Dp = 0.dp,
-    content: @Composable () -> Unit
+    dividersToSkip: Int = 0,
+    content: @Composable () -> Unit,
 ) {
     val state = remember { DividersState() }
     val density = LocalDensity.current
@@ -50,7 +51,7 @@ fun DividerColumn(
 
             // Place children in the parent layout
             placeables.forEachIndexed { index, placeable ->
-                if (index > 0) {
+                if (index > dividersToSkip) {
                     dividerPositions.add(yPosition)
                     yPosition += thicknessPx.roundToInt()
                 }

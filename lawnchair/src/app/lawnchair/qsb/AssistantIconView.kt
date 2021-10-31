@@ -16,7 +16,7 @@ class AssistantIconView(context: Context, attrs: AttributeSet?) : ImageButton(co
     init {
         val intent = Intent(Intent.ACTION_VOICE_COMMAND)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            .setPackage(QsbContainerView.getSearchWidgetPackageName(context))
+            .setPackage(QsbLayout.getSearchPackageName(context))
         if (context.packageManager.resolveActivity(intent, 0) == null) {
             isVisible = false
         }
@@ -26,10 +26,10 @@ class AssistantIconView(context: Context, attrs: AttributeSet?) : ImageButton(co
         }
     }
 
-    fun setIcon(isGoogle: Boolean) {
+    fun setIcon(isGoogle: Boolean, themed: Boolean) {
         clearColorFilter()
         if (isGoogle) {
-            setImageResource(R.drawable.ic_mic_color)
+            setThemedIconResource(R.drawable.ic_mic_color, themed)
         } else {
             setImageResource(R.drawable.ic_mic_flat)
             setColorFilter(Themes.getColorAccent(context))

@@ -37,11 +37,13 @@ class SearchResultIconRow(context: Context, attrs: AttributeSet?) :
         subtitle.isVisible = false
         setOnClickListener(icon)
 
-        shortcutIcons = arrayOf(
-            ViewCompat.requireViewById(this, R.id.shortcut_0),
-            ViewCompat.requireViewById(this, R.id.shortcut_1),
-            ViewCompat.requireViewById(this, R.id.shortcut_2),
+        shortcutIcons = listOf(
+            R.id.shortcut_0,
+            R.id.shortcut_1,
+            R.id.shortcut_2,
         )
+            .mapNotNull { findViewById<SearchResultIcon>(it) }
+            .toTypedArray()
         shortcutIcons.forEach {
             it.setTextVisibility(false)
             it.layoutParams.apply {
@@ -51,7 +53,8 @@ class SearchResultIconRow(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    override fun isQuickLaunch() = hasFlag(flags, SearchResultView.FLAG_QUICK_LAUNCH)
+    override val isQuickLaunch get() = icon.isQuickLaunch
+    override val titleText get() = icon.titleText
 
     override fun launch(): Boolean {
         ItemClickHandler.INSTANCE.onClick(this)

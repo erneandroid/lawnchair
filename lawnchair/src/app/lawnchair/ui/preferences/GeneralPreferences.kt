@@ -16,7 +16,6 @@
 
 package app.lawnchair.ui.preferences
 
-import android.os.Build
 import androidx.compose.animation.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -59,39 +58,45 @@ fun GeneralPreferences() {
                 LocalPreferenceInteractor.current.getIconPacks()
                     .find { it.packageName == preferenceManager().iconPackPackage.get() }?.name
             )
+            SwitchPreference(
+                adapter = prefs.themedIcons.getAdapter(),
+                label = stringResource(id = R.string.themed_icon_title)
+            )
             IconShapePreference()
-            ThemePreference()
-            AccentColorPreference()
             FontPreference(
                 adapter = prefs.workspaceFont.getAdapter(),
                 label = stringResource(id = R.string.font_label)
             )
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val wrapAdaptiveIcons = prefs.wrapAdaptiveIcons.getAdapter()
-            PreferenceGroup(
-                heading = stringResource(id = R.string.auto_adaptive_icons_label),
-                description = stringResource(id = (R.string.adaptive_icon_background_description)),
-                showDescription = wrapAdaptiveIcons.state.value
+        PreferenceGroup(
+            heading = stringResource(id = R.string.colors)
+        ) {
+            ThemePreference()
+            AccentColorPreference()
+        }
+        val wrapAdaptiveIcons = prefs.wrapAdaptiveIcons.getAdapter()
+        PreferenceGroup(
+            heading = stringResource(id = R.string.auto_adaptive_icons_label),
+            description = stringResource(id = (R.string.adaptive_icon_background_description)),
+            showDescription = wrapAdaptiveIcons.state.value
+        ) {
+            SwitchPreference(
+                adapter = wrapAdaptiveIcons,
+                label = stringResource(id = R.string.auto_adaptive_icons_label),
+                description = stringResource(id = R.string.auto_adaptive_icons_description),
+            )
+            AnimatedVisibility(
+                visible = wrapAdaptiveIcons.state.value,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
             ) {
-                SwitchPreference(
-                    adapter = wrapAdaptiveIcons,
-                    label = stringResource(id = R.string.auto_adaptive_icons_label),
-                    description = stringResource(id = R.string.auto_adaptive_icons_description),
+                SliderPreference(
+                    label = stringResource(id = R.string.background_lightness_label),
+                    adapter = prefs.coloredBackgroundLightness.getAdapter(),
+                    valueRange = 0F..1F,
+                    step = 0.1f,
+                    showAsPercentage = true
                 )
-                AnimatedVisibility(
-                    visible = wrapAdaptiveIcons.state.value,
-                    enter = expandVertically() + fadeIn(),
-                    exit = shrinkVertically() + fadeOut()
-                ) {
-                    SliderPreference(
-                        label = stringResource(id = R.string.background_lightness_label),
-                        adapter = prefs.coloredBackgroundLightness.getAdapter(),
-                        valueRange = 0F..1F,
-                        step = 0.1f,
-                        showAsPercentage = true
-                    )
-                }
             }
         }
     }
